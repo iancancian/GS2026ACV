@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_BocaDeLobo" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_BocaDeLobo" name="Inspecao preventiva de bocas de lobo" isExecutable="false">
+    <bpmn:startEvent id="inicio" name="Lote agendado antes do temporal"><bpmn:outgoing>f01</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:serviceTask id="ler" name="Ler áreas de risco e lista de inspeções (CSV)"><bpmn:incoming>f01</bpmn:incoming><bpmn:outgoing>f02</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="g_entradas" name="Entradas válidas?"><bpmn:incoming>f02</bpmn:incoming><bpmn:outgoing>f03</bpmn:outgoing><bpmn:outgoing>f04</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:endEvent id="abortar" name="Abortar e registrar erro (código 2)"><bpmn:incoming>f04</bpmn:incoming><bpmn:errorEventDefinition /></bpmn:endEvent>
+    <bpmn:serviceTask id="previsao" name="Consultar previsão de chuva por área (API, 3 tentativas)"><bpmn:incoming>f03</bpmn:incoming><bpmn:outgoing>f05</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="g_previsao" name="Previsão disponível?"><bpmn:incoming>f05</bpmn:incoming><bpmn:outgoing>f06</bpmn:outgoing><bpmn:outgoing>f07</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="indisponivel" name="Marcar previsão indisponível (nunca assumir sem chuva)"><bpmn:incoming>f07</bpmn:incoming><bpmn:outgoing>f08</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="validar" name="Validar registro, área e imagem"><bpmn:incoming>f06</bpmn:incoming><bpmn:incoming>f08</bpmn:incoming><bpmn:incoming>f16</bpmn:incoming><bpmn:outgoing>f09</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="g_valido" name="Registro válido?"><bpmn:incoming>f09</bpmn:incoming><bpmn:outgoing>f10</bpmn:outgoing><bpmn:outgoing>f11</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="detectar" name="Detectar bueiro e obstruções (YOLO)"><bpmn:incoming>f10</bpmn:incoming><bpmn:outgoing>f12</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="cobertura" name="Calcular cobertura, estado e prioridade"><bpmn:incoming>f12</bpmn:incoming><bpmn:outgoing>f13</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="registrar" name="Registrar item e log de auditoria"><bpmn:incoming>f13</bpmn:incoming><bpmn:outgoing>f14</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="g_mais" name="Há mais inspeções?"><bpmn:incoming>f14</bpmn:incoming><bpmn:incoming>f15</bpmn:incoming><bpmn:outgoing>f16</bpmn:outgoing><bpmn:outgoing>f17</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="rejeitar" name="Registrar rejeição no log e seguir"><bpmn:incoming>f11</bpmn:incoming><bpmn:outgoing>f15</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="gerar" name="Gerar fila de ações, tarefas de limpeza e avisos (JSON/CSV)"><bpmn:incoming>f17</bpmn:incoming><bpmn:outgoing>f18</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:userTask id="aprovar" name="Equipe revisa e aprova ações e avisos (humano)"><bpmn:incoming>f18</bpmn:incoming><bpmn:outgoing>f19</bpmn:outgoing></bpmn:userTask>
+    <bpmn:endEvent id="fim" name="MVP consome os arquivos"><bpmn:incoming>f19</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="f01" sourceRef="inicio" targetRef="ler" />
+    <bpmn:sequenceFlow id="f02" sourceRef="ler" targetRef="g_entradas" />
+    <bpmn:sequenceFlow id="f03" name="Sim" sourceRef="g_entradas" targetRef="previsao" />
+    <bpmn:sequenceFlow id="f04" name="Não" sourceRef="g_entradas" targetRef="abortar" />
+    <bpmn:sequenceFlow id="f05" sourceRef="previsao" targetRef="g_previsao" />
+    <bpmn:sequenceFlow id="f06" name="Sim" sourceRef="g_previsao" targetRef="validar" />
+    <bpmn:sequenceFlow id="f07" name="Não" sourceRef="g_previsao" targetRef="indisponivel" />
+    <bpmn:sequenceFlow id="f08" sourceRef="indisponivel" targetRef="validar" />
+    <bpmn:sequenceFlow id="f09" sourceRef="validar" targetRef="g_valido" />
+    <bpmn:sequenceFlow id="f10" name="Sim" sourceRef="g_valido" targetRef="detectar" />
+    <bpmn:sequenceFlow id="f11" name="Não" sourceRef="g_valido" targetRef="rejeitar" />
+    <bpmn:sequenceFlow id="f12" sourceRef="detectar" targetRef="cobertura" />
+    <bpmn:sequenceFlow id="f13" sourceRef="cobertura" targetRef="registrar" />
+    <bpmn:sequenceFlow id="f14" sourceRef="registrar" targetRef="g_mais" />
+    <bpmn:sequenceFlow id="f15" sourceRef="rejeitar" targetRef="g_mais" />
+    <bpmn:sequenceFlow id="f16" name="Sim" sourceRef="g_mais" targetRef="validar" />
+    <bpmn:sequenceFlow id="f17" name="Não" sourceRef="g_mais" targetRef="gerar" />
+    <bpmn:sequenceFlow id="f18" sourceRef="gerar" targetRef="aprovar" />
+    <bpmn:sequenceFlow id="f19" sourceRef="aprovar" targetRef="fim" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_1">
+    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Process_BocaDeLobo">
+      <bpmndi:BPMNShape id="inicio_di" bpmnElement="inicio">
+        <dc:Bounds x="46" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ler_di" bpmnElement="ler">
+        <dc:Bounds x="115" y="84" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_entradas_di" bpmnElement="g_entradas" isMarkerVisible="true">
+        <dc:Bounds x="336" y="96" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="abortar_di" bpmnElement="abortar">
+        <dc:Bounds x="342" y="12" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="previsao_di" bpmnElement="previsao">
+        <dc:Bounds x="445" y="84" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_previsao_di" bpmnElement="g_previsao" isMarkerVisible="true">
+        <dc:Bounds x="676" y="96" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="indisponivel_di" bpmnElement="indisponivel">
+        <dc:Bounds x="785" y="84" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="validar_di" bpmnElement="validar">
+        <dc:Bounds x="115" y="324" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_valido_di" bpmnElement="g_valido" isMarkerVisible="true">
+        <dc:Bounds x="336" y="336" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="detectar_di" bpmnElement="detectar">
+        <dc:Bounds x="445" y="324" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="cobertura_di" bpmnElement="cobertura">
+        <dc:Bounds x="635" y="324" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="registrar_di" bpmnElement="registrar">
+        <dc:Bounds x="825" y="324" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_mais_di" bpmnElement="g_mais" isMarkerVisible="true">
+        <dc:Bounds x="1046" y="336" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rejeitar_di" bpmnElement="rejeitar">
+        <dc:Bounds x="285" y="444" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gerar_di" bpmnElement="gerar">
+        <dc:Bounds x="1085" y="564" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="aprovar_di" bpmnElement="aprovar">
+        <dc:Bounds x="885" y="564" width="150" height="72" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="fim_di" bpmnElement="fim">
+        <dc:Bounds x="782" y="582" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f01_di" bpmnElement="f01">
+        <di:waypoint x="82" y="120" />
+        <di:waypoint x="115" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f02_di" bpmnElement="f02">
+        <di:waypoint x="265" y="120" />
+        <di:waypoint x="336" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f03_di" bpmnElement="f03">
+        <di:waypoint x="384" y="120" />
+        <di:waypoint x="445" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f04_di" bpmnElement="f04">
+        <di:waypoint x="360" y="96" />
+        <di:waypoint x="360" y="48" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f05_di" bpmnElement="f05">
+        <di:waypoint x="595" y="120" />
+        <di:waypoint x="676" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f06_di" bpmnElement="f06">
+        <di:waypoint x="700" y="144" />
+        <di:waypoint x="700" y="240" />
+        <di:waypoint x="80" y="240" />
+        <di:waypoint x="80" y="360" />
+        <di:waypoint x="115" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f07_di" bpmnElement="f07">
+        <di:waypoint x="724" y="120" />
+        <di:waypoint x="785" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f08_di" bpmnElement="f08">
+        <di:waypoint x="860" y="156" />
+        <di:waypoint x="860" y="240" />
+        <di:waypoint x="80" y="240" />
+        <di:waypoint x="80" y="360" />
+        <di:waypoint x="115" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f09_di" bpmnElement="f09">
+        <di:waypoint x="265" y="360" />
+        <di:waypoint x="336" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10">
+        <di:waypoint x="384" y="360" />
+        <di:waypoint x="445" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11">
+        <di:waypoint x="360" y="384" />
+        <di:waypoint x="360" y="444" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12">
+        <di:waypoint x="595" y="360" />
+        <di:waypoint x="635" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13">
+        <di:waypoint x="785" y="360" />
+        <di:waypoint x="825" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14">
+        <di:waypoint x="975" y="360" />
+        <di:waypoint x="1046" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f15_di" bpmnElement="f15">
+        <di:waypoint x="360" y="516" />
+        <di:waypoint x="360" y="540" />
+        <di:waypoint x="1070" y="540" />
+        <di:waypoint x="1070" y="384" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f16_di" bpmnElement="f16">
+        <di:waypoint x="1070" y="336" />
+        <di:waypoint x="1070" y="290" />
+        <di:waypoint x="190" y="290" />
+        <di:waypoint x="190" y="324" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f17_di" bpmnElement="f17">
+        <di:waypoint x="1094" y="360" />
+        <di:waypoint x="1160" y="360" />
+        <di:waypoint x="1160" y="564" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f18_di" bpmnElement="f18">
+        <di:waypoint x="1085" y="600" />
+        <di:waypoint x="1035" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f19_di" bpmnElement="f19">
+        <di:waypoint x="885" y="600" />
+        <di:waypoint x="818" y="600" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

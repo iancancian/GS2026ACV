@@ -1,0 +1,18 @@
+RELATORIO DE INSPECAO VISUAL - BOCA DE LOBO
+Inspecao: a945a9ed-5291-4702-920c-99ed7731bf65
+Ativo: DEMO-002
+Data UTC: 2026-11-17T20:24:48.827470+00:00
+Imagem: test_0027_IMG_20250627_181511_jpg.rf.ff8b598c4c3d014c27cebc825a7f19f6.jpg
+Modelo: best.pt | confianca minima: 0.35
+Bueiros detectados: 1
+Deteccoes de material na imagem: folha: 1, lixo: 3
+Deteccoes de material fora das caixas de bueiro: 0
+Bueiro 1: parcialmente_obstruido | cobertura estimada: 41.3% | materiais sobrepostos: folha, lixo
+Prioridade sugerida: programada
+Contexto informado: chuva forte = False; area de risco = False.
+Regra experimental: abaixo de 10% sem obstrucao visivel; de 10% a menos de 80% parcialmente obstruido; a partir de 80% entupido provavel.
+Cobertura e uniao das caixas de materiais dentro da caixa do bueiro, nao area real de sujeira.
+Contagens sao deteccoes, nao volume ou peso. Materiais proximos podem nao tocar a caixa.
+A ausencia de deteccao nao comprova que o bueiro esta livre; o modelo pode falhar.
+Os limiares nao foram calibrados; a obstrucao interna nao e visivel. Confirmar em campo.
+Triagem experimental: aprovacao humana obrigatoria antes de qualquer acao.

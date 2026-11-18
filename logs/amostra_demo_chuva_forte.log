@@ -1,0 +1,21 @@
+2026-11-17 16:57:00,068 INFO Execucao 0a99a193-6ea7-4d46-b3f6-7f1ccb84346c iniciada.
+2026-11-17 16:57:00,659 INFO Previsao AREA-A: max 0.2 mm/h em 24h (chuva forte: True).
+2026-11-17 16:57:01,237 INFO Previsao AREA-B: max 0.1 mm/h em 24h (chuva forte: False).
+2026-11-17 16:57:01,812 INFO Previsao AREA-C: max 0.1 mm/h em 24h (chuva forte: False).
+2026-11-17 16:57:03,572 INFO [1/16] BUEIRO-001 processado: prioridade=programada estado=sem_obstrucao_visivel cobertura=0.059
+2026-11-17 16:57:03,593 INFO [2/16] BUEIRO-002 processado: prioridade=revisao_manual estado=bueiro_nao_detectado cobertura=-
+2026-11-17 16:57:03,611 INFO [3/16] BUEIRO-003 processado: prioridade=sem_acao_sugerida estado=sem_obstrucao_visivel cobertura=0.0
+2026-11-17 16:57:03,628 INFO [4/16] BUEIRO-004 processado: prioridade=revisao_manual estado=bueiro_nao_detectado cobertura=-
+2026-11-17 16:57:03,645 INFO [5/16] BUEIRO-005 processado: prioridade=sem_acao_sugerida estado=sem_obstrucao_visivel cobertura=0.055
+2026-11-17 16:57:03,661 INFO [6/16] BUEIRO-006 processado: prioridade=sem_acao_sugerida estado=sem_obstrucao_visivel cobertura=0.077
+2026-11-17 16:57:03,678 INFO [7/16] BUEIRO-007 processado: prioridade=programada estado=parcialmente_obstruido cobertura=0.264
+2026-11-17 16:57:03,696 INFO [8/16] BUEIRO-008 processado: prioridade=programada estado=parcialmente_obstruido cobertura=0.413
+2026-11-17 16:57:03,714 INFO [9/16] BUEIRO-009 processado: prioridade=sem_acao_sugerida estado=sem_obstrucao_visivel cobertura=0.0
+2026-11-17 16:57:03,731 INFO [10/16] BUEIRO-010 processado: prioridade=programada estado=sem_obstrucao_visivel cobertura=0.046
+2026-11-17 16:57:03,749 INFO [11/16] BUEIRO-011 processado: prioridade=revisao_manual estado=bueiro_nao_detectado cobertura=-
+2026-11-17 16:57:03,766 INFO [12/16] BUEIRO-012 processado: prioridade=alta estado=sem_obstrucao_visivel cobertura=0.0
+2026-11-17 16:57:03,767 WARNING [13/16] BUEIRO-900 rejeitado: imagem_ausente nao_existe.jpg
+2026-11-17 16:57:03,767 WARNING [14/16] BUEIRO-901 rejeitado: area_desconhecida AREA-INEXISTENTE
+2026-11-17 16:57:03,767 WARNING [15/16] BUEIRO-902 rejeitado: caminho_invalido ../fora_da_pasta.jpg
+2026-11-17 16:57:03,767 WARNING [16/16] BUEIRO-001 rejeitado: ativo_duplicado
+2026-11-17 16:57:03,879 INFO Execucao 0a99a193-6ea7-4d46-b3f6-7f1ccb84346c concluida: 12 processados, 4 rejeitados, 1 aviso(s) pendente(s).

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-17T19:57:03.767944+00:00",
+  "alerts": [
+    {
+      "area_id": "AREA-A",
+      "area_name": "Setor baixo A (simulado)",
+      "status": "pendente_aprovacao",
+      "forecast_max_hourly_mm": 0.2,
+      "message": "Previsao de chuva forte para Setor baixo A (simulado). Evite passar por trechos baixos e areas que costumam alagar."
+    }
+  ]
+}

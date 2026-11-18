@@ -1,0 +1,9 @@
+asset_id,area_id,priority,state,obstruction_coverage,materials,forecast_status,human_approval_required
+BUEIRO-012,AREA-A,alta,sem_obstrucao_visivel,0.0,,ok,True
+BUEIRO-001,AREA-B,programada,sem_obstrucao_visivel,0.059,lixo|pedra,ok,True
+BUEIRO-007,AREA-B,programada,parcialmente_obstruido,0.264,folha|lixo,ok,True
+BUEIRO-008,AREA-C,programada,parcialmente_obstruido,0.413,folha|lixo,ok,True
+BUEIRO-010,AREA-B,programada,sem_obstrucao_visivel,0.046,folha,ok,True
+BUEIRO-002,AREA-C,revisao_manual,bueiro_nao_detectado,,,ok,True
+BUEIRO-004,AREA-B,revisao_manual,bueiro_nao_detectado,,,ok,True
+BUEIRO-011,AREA-C,revisao_manual,bueiro_nao_detectado,,,ok,True

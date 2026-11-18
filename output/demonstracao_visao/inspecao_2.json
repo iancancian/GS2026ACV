@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "inspection_id": "a945a9ed-5291-4702-920c-99ed7731bf65",
+  "asset_id": "DEMO-002",
+  "observed_at": "2026-11-17T20:24:48.827470+00:00",
+  "image_name": "test_0027_IMG_20250627_181511_jpg.rf.ff8b598c4c3d014c27cebc825a7f19f6.jpg",
+  "model": {
+    "weights": "best.pt",
+    "confidence_threshold": 0.35
+  },
+  "detections": [
+    {
+      "class_id": 1,
+      "class_name": "lixo",
+      "confidence": 0.881951,
+      "bbox_xyxy_pixels": [
+        500.78,
+        527.36,
+        706.72,
+        700.3
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "lixo",
+      "confidence": 0.752418,
+      "bbox_xyxy_pixels": [
+        782.78,
+        567.74,
+        1154.33,
+        703.96
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "lixo",
+      "confidence": 0.579416,
+      "bbox_xyxy_pixels": [
+        1204.91,
+        558.72,
+        1280.0,
+        710.67
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "folha",
+      "confidence": 0.546193,
+      "bbox_xyxy_pixels": [
+        168.73,
+        505.52,
+        475.67,
+        650.78
+      ]
+    },
+    {
+      "class_id": 0,
+      "class_name": "bueiro",
+      "confidence": 0.497222,
+      "bbox_xyxy_pixels": [
+        404.41,
+        468.38,
+        1223.27,
+        762.29
+      ]
+    }
+  ],
+  "assessment": {
+    "maintenance_priority": "programada",
+    "resident_warning_recommended": false,
+    "human_approval_required": true,
+    "drain_count": 1,
+    "drains": [
+      {
+        "drain_index": 0,
+        "obstruction_coverage": 0.413,
+        "state": "parcialmente_obstruido",
+        "materials": [
+          "folha",
+          "lixo"
+        ]
+      }
+    ],
+    "obstruction_outside_drain_count": 0,
+    "reason": {
+      "strong_rain": false,
+      "risk_area": false,
+      "limitations": "Cobertura estimada por caixas 2D; nao mede a obstrucao interna. Confirmar em campo."
+    }
+  }
+}

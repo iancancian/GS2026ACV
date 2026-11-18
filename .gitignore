@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+.pytest_cache/
+
+# Fotos, anotacoes e arquivos baixados nao devem ser publicados sem revisao.
+*.zip
+dataset/metadata.csv
+dataset/images/**/*
+!dataset/images/**/.gitkeep
+dataset/labels/**/*
+!dataset/labels/**/.gitkeep
+
+# Treinos locais; apenas os pesos finais em models/ sao versionados.
+runs/
+*.pt
+!models/*.pt
+
+# Logs de execucao ficam locais; a amostra versionada e logs/amostra_execucao.log.
+logs/automation.log
+
+# Planejamento interno do produto; nao faz parte dos entregaveis da disciplina.
+docs/PLANO.md
+
+# Artefatos antigos da disciplina de RPA; a entrega atual e Applied Computer Vision.
+docs/Relatorio_Tecnico.pdf
+docs/ROTEIRO_VIDEO.md
+scripts/gerar_relatorio.py
