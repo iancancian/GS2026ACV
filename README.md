@@ -9,6 +9,17 @@ quem precisa agir: a **equipe de limpeza** (desentupir a tempo) e os
 **moradores** (onde não passar). Os avisos são rascunhos, e toda ação exige
 aprovação humana. Não há robô físico, publicação de avisos ou monitoramento contínuo.
 
+## Integrantes
+
+| Nome completo | RM |
+|---|---|
+| Açussena Macedo Mautone | 552568 |
+| Felipe Heilmann Marques | 551026 |
+| Felipe Voidela Toledo | 98595 |
+| Carlos Eduardo Caramante Ribeiro | 552159 |
+| Ian Cancian Nachtergaele | 98387 |
+
+
 ## Ficha técnica do MVP
 
 | Item | Descrição |
